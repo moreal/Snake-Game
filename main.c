@@ -16,9 +16,9 @@
 #define DOWN 80
 
 FILE *f;
-int _x = 49, _y = 30;//block_hate() 사용
-int j;//배열변수
-int key, speed;//키 받아오는 변수와 스피드
+int _x = 49, _y = 30; //block_hate() 사용
+int j; //배열변수
+int key, speed; //키 받아오는 변수와 스피드
 int t, ta = 0;
 char d = 0;
 
@@ -251,7 +251,7 @@ void block_hate(char c)
 	if (ta < t / 5000)
 	{
 		setcolor(12);
-		ta+=1;
+		ta += 1;
 		for (j = 0; j < c; j++)
 		{
 			if (hate_x[j] == 0 || hate_y[j] == 0) break;
@@ -264,11 +264,7 @@ void block_hate(char c)
 			srand(time(NULL));
 			_x = rand() % 48;
 			_y = rand() % 29;
-			if (_x == 0 || _y == 0)
-			{
-
-			}
-			else
+			if (!(_x == 0 || _y == 0))
 			{
 				for (j = 0; j < length; j++)
 				{
@@ -278,6 +274,7 @@ void block_hate(char c)
 						_y = rand() % 29;
 					}
 				}
+				
 				for (j = 0; j < 10; j++)
 				{
 					while (hate_x[j] == _x && hate_y[j] == _y)
@@ -285,12 +282,10 @@ void block_hate(char c)
 						_x = rand() % 48;
 						_y = rand() % 29;
 						if (hate_x[j] == 0 && hate_y[j] == 0)
-						{
 							continue;
-						}
 					}
-					
 				}
+				
 				j = 0;
 				while (j < 10)
 				{
@@ -313,17 +308,16 @@ void block_hate(char c)
 char check_die()
 {
 	if (x == 0 || x == 49 || y == 0 || y == 29)
-	{
 		return 1;
-	}
+		
 	for (j = 1; j < length; j++)
-	{
-		if (x == body_x[j] && y == body_y[j]) return 1;
-	}
+		if (x == body_x[j] && y == body_y[j])
+			return 1;
+			
 	for (j = 0; j < 10; j++)
 	{
 		if (x == hate_x[j] && y == hate_y[j]) return 1;
-		if (0 == hate_x[j] && 0 == hate_y[j]) break;
+		else if (0 == hate_x[j] && 0 == hate_y[j]) break;
 	}
 	
 	return 2;
@@ -357,7 +351,7 @@ void game_over()
 	setcolor(15);
 
 	f = fopen("C:\\GamesL\\SnakeGame\\bestpoint.txt", "r+");
-	fprintf_s(f, "%d\n", best_point);
+	fprintf(f, "%d\n", best_point);
 	fflush(f);
 	fclose(f);
 
@@ -392,6 +386,7 @@ int main()
 	Title();//타이틀
 	system("mode con:cols=100 lines=31");
 	system("title Snake Game with L - Play");//이름
+	
 	for (x = 0; x <= 49; x++)//기본바탕을 설정
 	{
 		for (y = 0; y <= 29; y++)
@@ -439,38 +434,30 @@ int main()
 		if (x == 1 || y == 1 || y == 28 || x == 48) point += length / 2;
 		if (_kbhit())
 		{
-
 			key = _getch();
 			ago = dir;
+			
 			if (key == 112)
-			{
 				pause();
-			}
+				
 			if (key == 224)
-			{
 				key = _getch();
-			}
-			if ((key == LEFT || key == RIGHT || key == UP || key == DOWN || key == 112) &&
-				((dir == LEFT && key != RIGHT) || (dir == RIGHT && key != LEFT) ||
-				(dir == UP && key != DOWN) || (dir == DOWN && key != UP)))
-			{
+				
+			if ((key == LEFT || key == RIGHT || key == UP || key == DOWN || key == 112) && ((dir == LEFT && key != RIGHT) || (dir == RIGHT && key != LEFT) || (dir == UP && key != DOWN) || (dir == DOWN && key != UP)))
 				dir = key;
-			}
 			
 			key = 0;
 		}
 		
 		draw_body();
+		
 		if (dif == 2)
-		{
 			block_hate(5);
-		}
 		else
-		{
 			block_hate(1);
-		}
 
 		if ((point%10) == 0) length++;
+		
 		if (check_die()==1)
 		{
 			while (_kbhit()) key = _getch();
