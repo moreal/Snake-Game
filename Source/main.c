@@ -16,29 +16,28 @@
 #define DOWN 80
 
 FILE *f;
-int _x = 49, _y = 30; //block_hate() »ç¿ë
-int j; //¹è¿­º¯¼ö
-int key, speed; //Å° ¹Þ¾Æ¿À´Â º¯¼ö¿Í ½ºÇÇµå
+int _x = 49, _y = 30; //block_hate() ì‚¬ìš©
+int j; //ë°°ì—´ë³€ìˆ˜
+int key, speed; //í‚¤ ë°›ì•„ì˜¤ëŠ” ë³€ìˆ˜ì™€ ìŠ¤í”¼ë“œ
 int t, ta = 0;
 char d = 0;
 
-char dir,ago;
-char dif;//difficult =  ³­ÀÌµµ
+char dir, ago, dif;
 
 int length = 2, point, best_point, p;
 
-short body_x[500] = { 0 }, body_y[500] = { 0 };
-short hate_x[10] = { 0 }, hate_y[10] = { 0 };
-short x, y;//x,y»ç¿ë
+short body_x[500], body_y[500];
+short hate_x[10], hate_y[10];
+short x, y;//x,yì‚¬ìš©
 
 
-void gotoxy(int a, int b) //Ä¿¼­ À§Ä¡¸¦ ¼³Á¤
+void gotoxy(int a, int b) //ì»¤ì„œ ìœ„ì¹˜ë¥¼ ì„¤ì •
 {
 	COORD pos = { a,b };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-void printxy(int a, int b, char c[]) //Ä¿¼­À§Ä¡¸¦ ¼³Á¤ÇÏ°í ÀÔ·ÂÇÑ´Ù.
+void printxy(int a, int b, char c[]) //ì»¤ì„œìœ„ì¹˜ë¥¼ ì„¤ì •í•˜ê³  ìž…ë ¥í•œë‹¤.
 {
 	gotoxy(a, b);
 	printf("%s", c);
@@ -85,16 +84,16 @@ void Title()
 	system("title Snake Game with L - Title");
 	Cursor_out();
 	setcolor(15);
-	printxy(15, 4, "===½º³×ÀÌÅ© °ÔÀÓ===");
+	printxy(15, 4, "===ìŠ¤ë„¤ì´í¬ ê²Œìž„===");
 	
 	setcolor(11);
-	printxy(15, 6, "  ===¸ðµå¼±ÅÃ===");
+	printxy(15, 6, "  ===ëª¨ë“œì„ íƒ===");
 	
 	setcolor(12);
-	printxy(15, 8, "     ÇÏµå¸ðµå\n\t\t      H Key");
+	printxy(15, 8, "     í•˜ë“œëª¨ë“œ\n\t\t      H Key");
 	
 	setcolor(10);
-	printxy(15, 11, "     ÀÏ¹Ý¸ðµå\n\t\t      G Key");
+	printxy(15, 11, "     ì¼ë°˜ëª¨ë“œ\n\t\t      G Key");
 	
 	setcolor(15);
 	gotoxy(3, 16);
@@ -125,16 +124,16 @@ void Title()
 				system("title Snake Game with L");
 				gotoxy(10, 3);
 				setcolor(12);
-				printf("ÇÏµå¸ðµå");
+				printf("í•˜ë“œëª¨ë“œ");
 				setcolor(15);
-				printf("·Î ½ÃÀÛÇÕ´Ï´Ù\n\tÃë¼ÒÇÏ·Á¸é ESC¸¦ ´©¸£¼¼¿ä");
+				printf("ë¡œ ì‹œìž‘í•©ë‹ˆë‹¤\n\tì·¨ì†Œí•˜ë ¤ë©´ ESCë¥¼ ëˆ„ë¥´ì„¸ìš”");
 				Sleep(100);
 				for (j = 3; j > 0; j--)
 				{
 					if(_kbhit()) key = _getch();
 					if (key == ESC) Title();
 					gotoxy(11, 6);
-					printf("%dÃÊ ÈÄ ½ÃÀÛÇÕ´Ï´Ù.",j);
+					printf("%dì´ˆ í›„ ì‹œìž‘í•©ë‹ˆë‹¤.",j);
 					Sleep(1000);
 				}
 				speed = 50, dif = 2;
@@ -147,16 +146,16 @@ void Title()
 				system("title Snake Game with L");
 				gotoxy(10, 3);
 				setcolor(10);
-				printf("ÀÏ¹Ý¸ðµå");
+				printf("ì¼ë°˜ëª¨ë“œ");
 				setcolor(15);
-				printf("·Î ½ÃÀÛÇÕ´Ï´Ù\n\tÃë¼ÒÇÏ·Á¸é ESC¸¦ ´©¸£¼¼¿ä");
+				printf("ë¡œ ì‹œìž‘í•©ë‹ˆë‹¤\n\tì·¨ì†Œí•˜ë ¤ë©´ ESCë¥¼ ëˆ„ë¥´ì„¸ìš”");
 				Sleep(100);
 				for (j = 4; j > 0; j--)
 				{
 					if (_kbhit()) key = _getch();
 					if (key == ESC) Title();
 					gotoxy(11, 6);
-					printf("%dÃÊ ÈÄ ½ÃÀÛÇÕ´Ï´Ù.", j);
+					printf("%dì´ˆ í›„ ì‹œìž‘í•©ë‹ˆë‹¤.", j);
 					Sleep(1000);
 				}
 				speed = 200, dif = 2;
@@ -212,7 +211,7 @@ void draw_body()
 	
 	for (j = 0; j < length; j++)
 	{
-		printxy(body_x[j]*2, body_y[j], "¡á");
+		printxy(body_x[j]*2, body_y[j], "â– ");
 	}
 
 	
@@ -224,14 +223,14 @@ void pause()
 	{
 		if (key == 112)
 		{
-			printxy(20, 30, "ÀÏ½ÃÁ¤Áö ´ç!");
+			printxy(20, 30, "ì¼ì‹œì •ì§€ ë‹¹!");
 			Sleep(400);
 			printxy(20, 30, "           ");
 			Sleep(400);
 		}
 		else
 		{
-			printxy(20, 30, "Áñ°× ÁßÀÌ´ç!");
+			printxy(20, 30, "ì¦ê²œ ì¤‘ì´ë‹¹!");
 			return;
 		}
 		if (_kbhit())
@@ -298,7 +297,7 @@ void block_hate(char c)
 				hate_x[j] = _x;
 				hate_y[j] = _y;
 			}
-			printxy(hate_x[d] * 2, hate_y[d], "¡á");
+			printxy(hate_x[d] * 2, hate_y[d], "â– ");
 		}
 		
 		setcolor(15);
@@ -333,7 +332,7 @@ void game_over()
 	Sleep(1000);
 
 	gotoxy(14, 4);
-	printf("´ç½ÅÀÇ Á¡¼ö :");
+	printf("ë‹¹ì‹ ì˜ ì ìˆ˜ :");
 	char ch[10];
 	_itoa(point, ch, 10);
 	gotoxy(20 - (length_array(ch) / 2) - (length_array(ch) % 2), 5); setcolor(11); printf("%d", point); setcolor(15);
@@ -341,7 +340,7 @@ void game_over()
 	Sleep(1000);
 
 	gotoxy(15, 7);
-	printf("ÃÖ°í Á¡¼ö :");
+	printf("ìµœê³  ì ìˆ˜ :");
 	if (best_point < point) best_point = point;
 	_itoa(best_point, ch, 10);
 
@@ -358,10 +357,10 @@ void game_over()
 	Sleep(1000);
 
 	gotoxy(7, 10);
-	printf("°ÔÀÓÀ» ´Ù½Ã ÇÏ°í ½ÍÀ¸½Ã´Ù¸é\n\t    ¾Æ¹«Å°³ª ´©¸£¼¼¿ä");
+	printf("ê²Œìž„ì„ ë‹¤ì‹œ í•˜ê³  ì‹¶ìœ¼ì‹œë‹¤ë©´\n\t    ì•„ë¬´í‚¤ë‚˜ ëˆ„ë¥´ì„¸ìš”");
 
 	gotoxy(8, 13);
-	printf("¹Ù·Î Á¾·áÇÏ°í ½ÍÀ¸½Ã´Ù¸é\n\t     ESC¸¦ ´©¸£¼¼¿ä");
+	printf("ë°”ë¡œ ì¢…ë£Œí•˜ê³  ì‹¶ìœ¼ì‹œë‹¤ë©´\n\t     ESCë¥¼ ëˆ„ë¥´ì„¸ìš”");
 
 	Sleep(1000);
 
@@ -372,9 +371,9 @@ void game_over()
 		if (key == ESC) exit(0);
 		if (key != 0 && key != ESC) main();
 		gotoxy(12, 16);
-		printf("%dÃÊ ÈÄ Á¾·áÇÕ´Ï´Ù.", j);
+		printf("%dì´ˆ í›„ ì¢…ë£Œí•©ë‹ˆë‹¤.", j);
 		gotoxy(8, 17);
-		printf("%dÃÊµ¿¾È °ÔÀÓÀ» ÇÏ¼Ì½À´Ï´Ù.", t/1000);
+		printf("%dì´ˆë™ì•ˆ ê²Œìž„ì„ í•˜ì…¨ìŠµë‹ˆë‹¤.", t/1000);
 		Sleep(1000);
 		key = 0;
 	}
@@ -383,17 +382,17 @@ void game_over()
 
 int main()
 {
-	Title();//Å¸ÀÌÆ²
+	Title();//íƒ€ì´í‹€
 	system("mode con:cols=100 lines=31");
-	system("title Snake Game with L - Play");//ÀÌ¸§
+	system("title Snake Game with L - Play");//ì´ë¦„
 	
-	for (x = 0; x <= 49; x++)//±âº»¹ÙÅÁÀ» ¼³Á¤
+	for (x = 0; x <= 49; x++)//ê¸°ë³¸ë°”íƒ•ì„ ì„¤ì •
 	{
 		for (y = 0; y <= 29; y++)
 		{
 			if (y == 0 || y == 29 || x == 0 || x == 49)
 			{
-				printxy(x * 2, y, "¡á");
+				printxy(x * 2, y, "â– ");
 			}
 			else
 			{
@@ -443,7 +442,9 @@ int main()
 			if (key == 224)
 				key = _getch();
 				
-			if ((key == LEFT || key == RIGHT || key == UP || key == DOWN || key == 112) && ((dir == LEFT && key != RIGHT) || (dir == RIGHT && key != LEFT) || (dir == UP && key != DOWN) || (dir == DOWN && key != UP)))
+			if ((key == LEFT || key == RIGHT || key == UP || key == DOWN || key == 112) && 
+			   ((dir == LEFT && key != RIGHT) || (dir == RIGHT && key != LEFT) ||
+			    (dir == UP && key != DOWN)|| (dir == DOWN && key != UP)))
 				dir = key;
 			
 			key = 0;
@@ -460,7 +461,8 @@ int main()
 		
 		if (check_die()==1)
 		{
-			while (_kbhit()) key = _getch();
+			while (_kbhit())
+				key = _getch();
 			game_over();
 			return;
 		}
